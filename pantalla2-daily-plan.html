@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musefit - Daily Plan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <div class="flex gap-2 justify-center px-4 py-4 bg-gray-100">
+    <button class="px-3 py-1 rounded-xl bg-white shadow text-sm font-medium">22 Mon</button>
+    <button class="px-3 py-1 rounded-xl bg-white shadow text-sm font-medium">23 Tue</button>
+    <button class="px-3 py-1 rounded-xl bg-blue-100 text-blue-600 font-semibold px-3 py-1 rounded-xl shadow">22 Wed (Today)</button>
+    <button class="px-3 py-1 rounded-xl bg-white shadow text-sm font-medium">24 Thu</button>
+    <button class="px-3 py-1 rounded-xl bg-white shadow text-sm font-medium">25 Fri</button>
+  </div>
+
+  <div class="px-4 py-6">
+    <div class="bg-white rounded-2xl shadow p-4">
+      <h2 class="text-sm font-semibold mb-2">Total Kcal vs Burn</h2>
+      <canvas id="barChart" height="160"></canvas>
+    </div>
+  </div>
+
+  <div class="px-4 grid grid-cols-1 gap-4">
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center justify-between">
+      <div>
+        <h3 class="font-semibold text-sm">Plan</h3>
+        <p class="text-gray-500 text-xs">Breakfast</p>
+        <p class="mt-1 font-bold text-xl">800 kcal</p>
+      </div>
+      <canvas id="donut1" width="90" height="90"></canvas>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center justify-between">
+      <div>
+        <h3 class="font-semibold text-sm">Plan</h3>
+        <p class="text-gray-500 text-xs">Mid Lunch</p>
+        <p class="mt-1 font-bold text-xl">345 kcal</p>
+      </div>
+      <canvas id="donut2" width="90" height="90"></canvas>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-4 flex items-center justify-between">
+      <div>
+        <h3 class="font-semibold text-sm">Plan</h3>
+        <p class="text-gray-500 text-xs">Night Dinner</p>
+        <p class="mt-1 font-bold text-xl">643 kcal</p>
+      </div>
+      <canvas id="donut3" width="90" height="90"></canvas>
+    </div>
+  </div>
+
+  <div class="px-4 py-6">
+    <h2 class="text-sm font-semibold mb-2">Water Intake</h2>
+    <div class="flex gap-2">
+      <div class="w-8 h-16 bg-blue-400 rounded-lg"></div>
+      <div class="w-8 h-16 bg-blue-400 rounded-lg"></div>
+      <div class="w-8 h-16 bg-blue-400 rounded-lg"></div>
+      <div class="w-8 h-16 bg-blue-400 rounded-lg"></div>
+      <div class="w-8 h-16 bg-blue-400 rounded-lg"></div>
+      <div class="w-8 h-16 bg-gray-200 rounded-lg"></div>
+      <div class="w-8 h-16 bg-gray-200 rounded-lg"></div>
+    </div>
+    <p class="text-xs text-gray-500 mt-1">5 times today</p>
+  </div>
+
+  <script>
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        datasets: [
+          {
+            label: 'Total Kcal',
+            backgroundColor: '#f87171',
+            data: [900, 850, 800, 760, 700, 820, 780]
+          },
+          {
+            label: 'Burn',
+            backgroundColor: '#60a5fa',
+            data: [500, 620, 580, 550, 500, 610, 580]
+          }
+        ]
+      },
+      options: {
+        plugins: { legend: { position: 'bottom' } },
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    function renderDonutChart(canvasId, values) {
+      new Chart(document.getElementById(canvasId), {
+        type: 'doughnut',
+        data: {
+          labels: ['Proteins', 'Fats', 'Carbs'],
+          datasets: [{
+            data: values,
+            backgroundColor: ['#4ade80', '#facc15', '#60a5fa'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    renderDonutChart('donut1', [30, 25, 45]);
+    renderDonutChart('donut2', [20, 30, 50]);
+    renderDonutChart('donut3', [35, 20, 45]);
+  </script>
+</body>
+</html>

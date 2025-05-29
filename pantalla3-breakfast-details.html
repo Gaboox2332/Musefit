@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musefit - Breakfast Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-white font-sans text-gray-800">
+
+  <div class="px-4 pt-6 pb-2">
+    <h1 class="text-lg font-bold mb-2">Calories per day</h1>
+    <div class="text-xs text-gray-500 mb-4">3 foods - 49 Kcal remaining</div>
+    <canvas id="caloriesChart" height="120"></canvas>
+  </div>
+
+  <div class="px-4 py-4">
+    <div class="bg-gray-100 rounded-2xl p-4">
+      <p class="text-sm font-semibold">Breakfast Contains - <span class="text-gray-500 font-normal">178 Kcal</span></p>
+      <p class="text-xs text-gray-500 mt-1">Last 24 hours overview progress</p>
+      <div class="mt-4 grid grid-cols-3 text-center text-sm">
+        <div>
+          <p class="text-pink-500 font-bold">Carbs</p>
+          <p class="font-semibold">4.564g</p>
+        </div>
+        <div>
+          <p class="text-blue-500 font-bold">Proteins</p>
+          <p class="font-semibold">0.264g</p>
+        </div>
+        <div>
+          <p class="text-yellow-500 font-bold">Fats</p>
+          <p class="font-semibold">3.564g</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4 py-4">
+    <h2 class="text-sm font-semibold mb-2">Main sources of energy</h2>
+
+    <div class="mb-4">
+      <p class="text-sm font-medium mb-1">🍗 Chicken Ribs - <span class="text-gray-500 text-xs">45%</span></p>
+      <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-pink-400" style="width: 45%;"></div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-sm font-medium mb-1">🍞 Bread Slice - <span class="text-gray-500 text-xs">20%</span></p>
+      <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-yellow-400" style="width: 20%;"></div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-sm font-medium mb-1">🥬 Avocado - <span class="text-gray-500 text-xs">15%</span></p>
+      <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-green-400" style="width: 15%;"></div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p class="text-sm font-medium mb-1">🥛 Milk - <span class="text-gray-500 text-xs">10%</span></p>
+      <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-blue-300" style="width: 10%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    new Chart(document.getElementById('caloriesChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        datasets: [{
+          label: 'Calories',
+          data: [620, 700, 680, 650, 690, 710, 670],
+          backgroundColor: function(context) {
+            return context.dataIndex === 3 ? '#fb7185' : '#fca5a5';
+          },
+          borderRadius: 4
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 100 } }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Musefit App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .nav-active {
+      @apply text-pink-600;
+    }
+  </style>
+</head>
+<body class="bg-white font-sans text-gray-800">
+
+  <div id="screen-home" class="screen px-4 py-6">
+    <h1 class="text-xl font-bold mb-4">🍽️ Home - Recipes</h1>
+    <div class="bg-pink-100 rounded-xl p-4 mb-4">
+      <p class="text-sm">Start your journey today</p>
+      <p class="font-bold text-lg mt-1">Hello, Diana!</p>
+    </div>
+    <div class="mb-4">
+      <p class="font-semibold text-sm mb-2">Popular Recipes</p>
+      <div class="grid grid-cols-2 gap-2">
+        <div class="bg-white p-3 shadow rounded-lg">🥗 Salad</div>
+        <div class="bg-white p-3 shadow rounded-lg">🍛 Curry</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-daily" class="screen hidden px-4 py-6">
+    <h1 class="text-xl font-bold mb-4">📊 Daily Plan</h1>
+    <canvas id="barChart" height="140"></canvas>
+    <div class="mt-6 space-y-3">
+      <div class="bg-white p-3 shadow rounded-xl flex justify-between items-center">
+        <div>
+          <p class="text-sm font-semibold">Breakfast</p>
+          <p class="text-xs text-gray-500">800 kcal</p>
+        </div>
+        <canvas id="donut1" width="80" height="80"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-breakfast" class="screen hidden px-4 py-6">
+    <h1 class="text-xl font-bold mb-4">🍳 Breakfast Details</h1>
+    <canvas id="caloriesChart" height="120"></canvas>
+    <div class="mt-6 bg-gray-100 p-4 rounded-xl">
+      <p class="text-sm">Total: <strong>178 Kcal</strong></p>
+      <div class="grid grid-cols-3 text-center mt-4">
+        <div><p class="text-pink-500 font-semibold">Carbs</p><p>4.5g</p></div>
+        <div><p class="text-blue-500 font-semibold">Proteins</p><p>0.2g</p></div>
+        <div><p class="text-yellow-500 font-semibold">Fats</p><p>3.5g</p></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md flex justify-around py-2">
+    <button onclick="showScreen('home')" class="nav-btn flex flex-col items-center text-sm">
+      <span>🏠</span> Home
+    </button>
+    <button onclick="showScreen('daily')" class="nav-btn flex flex-col items-center text-sm">
+      <span>📊</span> Daily
+    </button>
+    <button onclick="showScreen('breakfast')" class="nav-btn flex flex-col items-center text-sm">
+      <span>🍳</span> Breakfast
+    </button>
+  </nav>
+
+  <script>
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+      document.querySelector(`#screen-${name}`).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-pink-600'));
+      event.target.closest('button').classList.add('text-pink-600');
+    }
+
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ['M', 'T', 'W', 'T', 'F'],
+        datasets: [
+          { label: 'Kcal', backgroundColor: '#f87171', data: [900, 850, 800, 760, 700] },
+          { label: 'Burn', backgroundColor: '#60a5fa', data: [500, 620, 580, 550, 500] }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    new Chart(document.getElementById('donut1'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Carbs', 'Protein', 'Fat'],
+        datasets: [{
+          data: [30, 25, 45],
+          backgroundColor: ['#f87171', '#60a5fa', '#facc15'],
+          borderWidth: 0
+        }]
+      },
+      options: { cutout: '70%', plugins: { legend: { display: false } } }
+    });
+
+    new Chart(document.getElementById('caloriesChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        datasets: [{
+          label: 'Calories',
+          data: [620, 700, 680, 650, 690, 710, 670],
+          backgroundColor: function(ctx) {
+            return ctx.dataIndex === 3 ? '#fb7185' : '#fca5a5';
+          },
+          borderRadius: 4
+        }]
+      },
+      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+  </script>
+
+</body>
+</html>

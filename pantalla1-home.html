@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musefit - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 font-sans text-gray-800">
+
+  <div class="px-4 pt-6 pb-4 bg-gradient-to-b from-pink-200 to-pink-50 rounded-b-3xl shadow">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Musefit</h1>
+      <button class="p-2 rounded-full bg-white shadow">
+        🔔
+      </button>
+    </div>
+    <input
+      type="text"
+      placeholder="Search"
+      class="w-full px-4 py-2 rounded-xl bg-white shadow text-sm focus:outline-none"
+    />
+  </div>
+
+  <div class="flex justify-around mt-4 px-4">
+    <button class="tab-button text-sm font-medium text-gray-600 py-2 px-4 rounded-full bg-white shadow active-tab" data-tab="breakfast">Breakfast</button>
+    <button class="tab-button text-sm font-medium text-gray-600 py-2 px-4 rounded-full bg-white shadow" data-tab="lunch">Lunch</button>
+    <button class="tab-button text-sm font-medium text-gray-600 py-2 px-4 rounded-full bg-white shadow" data-tab="dinner">Dinner</button>
+  </div>
+
+  <div id="recipe-grid" class="grid grid-cols-2 gap-4 px-4 py-6">
+  </div>
+
+  <script>
+    const recipes = {
+      breakfast: [
+        { title: "Meat veg mixed", kcal: 345, rating: 4.5, img: "https://source.unsplash.com/400x400/?meat" },
+        { title: "Healthy nuts mixed", kcal: 250, rating: 4.5, img: "https://source.unsplash.com/400x400/?nuts" },
+        { title: "Fish onion cube", kcal: 150, rating: 4.5, img: "https://source.unsplash.com/400x400/?fish" },
+        { title: "Green salad mixed", kcal: 145, rating: 4.5, img: "https://source.unsplash.com/400x400/?salad" },
+      ],
+      lunch: [
+        { title: "Grilled chicken", kcal: 420, rating: 4.7, img: "https://source.unsplash.com/400x400/?chicken" },
+        { title: "Vegetable soup", kcal: 180, rating: 4.3, img: "https://source.unsplash.com/400x400/?soup" }
+      ],
+      dinner: [
+        { title: "Shrimp salad", kcal: 310, rating: 4.6, img: "https://source.unsplash.com/400x400/?shrimp" },
+        { title: "Tofu with rice", kcal: 290, rating: 4.2, img: "https://source.unsplash.com/400x400/?tofu" }
+      ]
+    };
+
+    const grid = document.getElementById('recipe-grid');
+    const buttons = document.querySelectorAll('.tab-button');
+
+    function loadRecipes(tab) {
+      grid.innerHTML = '';
+      recipes[tab].forEach(item => {
+        grid.innerHTML += `
+          <div class="bg-white rounded-2xl overflow-hidden shadow">
+            <img src="${item.img}" alt="${item.title}" class="w-full h-28 object-cover" />
+            <div class="p-2">
+              <h3 class="text-sm font-semibold">${item.title}</h3>
+              <div class="flex justify-between items-center text-xs mt-1">
+                <span class="text-pink-500 font-semibold">${item.kcal} kcal</span>
+                <span>⭐ ${item.rating}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active-tab', 'bg-pink-100'));
+        btn.classList.add('active-tab', 'bg-pink-100');
+        loadRecipes(btn.dataset.tab);
+      });
+    });
+
+    loadRecipes('breakfast');
+  </script>
+</body>
+</html>
